@@ -1,0 +1,25 @@
+{
+  "name": "todo-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "mongodb": "^3.1.13",
+    "mongoose": "^5.4.17"
+  },
+  "scripts": {
+    "test": "mocha server/**/*.test.js",
+    "test-watch": "nodemon --exec \"yarn test\""
+  },
+  "engines": {
+    "node": "8.10.0" 
+  },
+  "devDependencies": {
+    "expect": "^24.1.0",
+    "mocha": "^6.0.2",
+    "nodemon": "^1.18.10",
+    "supertest": "^3.4.2"
+  }
+}
