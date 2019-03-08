@@ -35,7 +35,7 @@ let UserSchema = new mongoose.Schema({
 UserSchema.methods.generateAuthToken = function () { //not overwrite, creates instance method
     let user = this
     let access = 'auth'
-    let token = jwt.sign({ access, _id: user._id.toHexString() }, 'abc').toString()
+    let token = jwt.sign({ access, _id: user._id.toHexString() }, process.env.JWT_SECRET).toString()
     user.tokens = user.tokens.concat([{ access, token }])
     return user.save().then(() => token)
 } 
@@ -47,7 +47,7 @@ UserSchema.methods.toJSON = function() {//overwrites mongoose method called toJS
 }
 UserSchema.methods.removeToken = function(token) {
     let user = this
-    return user.update({
+    return user.updateOne({
         $pull: {
             tokens: {
                 token  // removes the entire object from tokens array
@@ -59,7 +59,7 @@ UserSchema.statics.findByToken = function(token){ //statics is for creating mode
     let User = this //model User
     let decoded
     try{
-       decoded = jwt.verify(token, "abc")
+        decoded = jwt.verify(token, process.env.JWT_SECRET)
     } catch (e) { return Promise.reject() }
     return User.findOne({
         '_id': decoded._id,
